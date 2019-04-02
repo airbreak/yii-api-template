@@ -16,10 +16,24 @@ return [
         'request' => [
             'csrfParam' => '_csrf-backend',
         ],
+        'responce' => [
+            'class' => 'yii\web\Response',
+            'on beforeSend' => function ($event) {
+                $responce = $event ->isSuccessful;
+                $responce -> data = [
+                    'success' => $responce->isSuccessful,
+                    'code' => $responce->getStatusCode(),
+                    'message'=> $responce->statusText,
+                    'data'=>$responce->code
+                ];
+                $responce->statusCode = 200;
+            }
+        ],
         'user' => [
-            'identityClass' => 'common\models\User',
+            'identityClass' => 'api\models\User',
             'enableAutoLogin' => true,
-            'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
+//            'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
+            'enableSession' => false
         ],
         'session' => [
             // this is the name of the session cookie used for login on the backend
@@ -41,6 +55,21 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+//                [
+//                    'class' => 'yii\rest\UrlRule',
+//                    'controller' => 'user',
+//                    'extraPatterns' => [
+//                        'GET send-email' => 'send-email',
+//                        'POST login' => 'login'
+//                    ]
+//                ]
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'article',
+                    'extraPatterns' => [
+                        'POST search' => 'search'
+                    ]
+                ]
             ],
         ],
     ],

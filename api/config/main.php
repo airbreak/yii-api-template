@@ -55,19 +55,26 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-//                [
-//                    'class' => 'yii\rest\UrlRule',
-//                    'controller' => 'user',
-//                    'extraPatterns' => [
-//                        'GET send-email' => 'send-email',
-//                        'POST login' => 'login'
-//                    ]
-//                ]
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'article',
                     'extraPatterns' => [
                         'POST search' => 'search'
+                    ]
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'top10',
+                    'pluralize' => false,
+                    'except'=>['create','delete','view','update']
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'adminuser',
+                    'except'=>['create','delete','view','update'],
+                    'pluralize' => false,
+                    'extraPatterns' => [
+                        'POST login' => 'login'
                     ]
                 ]
             ],

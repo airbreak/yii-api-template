@@ -65,4 +65,9 @@ class Adminuser extends \yii\db\ActiveRecord
             'updated_at' => '最后修改时间',
         ];
     }
+    public function generateAccessToken()
+    {
+        $this->access_token = Yii::$app->security->generateRandomString();
+        return $this->access_token;
+    }
 }

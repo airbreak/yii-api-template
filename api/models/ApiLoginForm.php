@@ -58,7 +58,10 @@ class ApiLoginForm extends Model
     {
         if ($this->validate()) {
             $access_token = $this->_user->generateAccessToken();
+            $duration = 24* 3600 * 7;
+            $this->_user->expire_at = time() + $duration;
             $this->_user->save();
+            yii::$app->user->login($this->_user, $duration);
             return $access_token;
         } else {
             return false;
@@ -73,7 +76,7 @@ class ApiLoginForm extends Model
     protected function getUser()
     {
         if ($this->_user === null) {
-            $this->_user = User::findByUsername($this->username);
+            $this->_user = Adminuser::findByUsername($this->username);
         }
 
         return $this->_user;

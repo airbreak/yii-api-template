@@ -12,6 +12,7 @@ return [
     'controllerNamespace' => 'api\controllers',
     'bootstrap' => ['log'],
     'modules' => [],
+    'timeZone' => 'Asia/Shanghai',
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
@@ -74,7 +75,8 @@ return [
                     'except'=>['create','delete','view','update'],
                     'pluralize' => false,
                     'extraPatterns' => [
-                        'POST login' => 'login'
+                        'POST login' => 'login',
+                        'POST signup' => 'signup'
                     ]
                 ]
             ],

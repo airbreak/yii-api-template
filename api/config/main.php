@@ -65,6 +65,10 @@ return [
             'rules' => [
                 [
                     'class' => 'yii\rest\UrlRule',
+                    'controller' => 'adminuser',
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
                     'controller' => 'v1/article',
                     'extraPatterns' => [
                         'POST search' => 'search'

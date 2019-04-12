@@ -11,21 +11,28 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'api\controllers',
     'bootstrap' => ['log'],
-    'modules' => [],
+    'modules' => [
+        'v1' => [
+            'class' => 'api\modules\v1\Module',
+        ],
+        'v2' => [
+            'class' => 'api\modules\v2\Module',
+        ],
+    ],
     'timeZone' => 'Asia/Shanghai',
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
         ],
-        'responce' => [
+        'response' => [
             'class' => 'yii\web\Response',
             'on beforeSend' => function ($event) {
-                $responce = $event ->isSuccessful;
-                $responce -> data = [
+                $responce = $event->sender;
+                $responce->data = [
                     'success' => $responce->isSuccessful,
                     'code' => $responce->getStatusCode(),
                     'message'=> $responce->statusText,
-                    'data'=>$responce->code
+                    'data'=>$responce->data
                 ];
                 $responce->statusCode = 200;
             }
@@ -58,27 +65,44 @@ return [
             'rules' => [
                 [
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'article',
+                    'controller' => 'v1/article',
                     'extraPatterns' => [
                         'POST search' => 'search'
                     ]
                 ],
                 [
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'top10',
+                    'controller' => 'v1/top10',
                     'pluralize' => false,
                     'except'=>['create','delete','view','update']
                 ],
                 [
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'adminuser',
+                    'controller' => 'v1/user',
                     'except'=>['create','delete','view','update'],
                     'pluralize' => false,
                     'extraPatterns' => [
                         'POST login' => 'login',
                         'POST signup' => 'signup'
                     ]
-                ]
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'v1/adminuser',
+                    'except'=>['create','delete','view','update'],
+                    'pluralize' => false,
+                    'extraPatterns' => [
+                        'POST login' => 'login',
+                        'POST signup' => 'signup'
+                    ]
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'v2/article',
+                    'extraPatterns' => [
+                        'POST search' => 'search'
+                    ]
+                ],
             ],
         ],
     ],
